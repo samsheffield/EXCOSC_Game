@@ -1,6 +1,7 @@
 class Game {
 
 	ArrayList<State> state;
+	
 
 	Game(){
 		state = new ArrayList<State>();
