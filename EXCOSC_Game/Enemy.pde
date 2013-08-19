@@ -6,6 +6,7 @@ class Enemy extends Sprite{
 	color c = #000000;
 	int current_color;
 	int id;
+	float r_speed;
 
 	Enemy(float _x, float _y){
 		super(_x, _y);
@@ -30,20 +31,23 @@ class Enemy extends Sprite{
 		x_speed = random(1, 10);
 		y_speed = random(1, 10);
 		current_color = int(random(colors.length));
+		r_speed = random(-15, 15);
+		c = color(random(255), random(255), random(255));
 	}
 
 	void update(){
-		if (x > width-size/2 || x < size/2){
+		if (x < 48+(size/2) || x > 1232-(size/2))
 			x_direction *= -1;
-		}
 			
-		if (y > height-size/2 || y < size/2)
+		if (y < 96+(size/2) || y > 672-(size/2))
 			y_direction *= -1;
 
 		x += x_speed*x_direction;
 		y += y_speed*y_direction;
 
-		c = colors[current_color];
+		//c = colors[current_color];
+
+		rotation+= r_speed;
 
 		super.update();
 	}
@@ -55,8 +59,8 @@ class Enemy extends Sprite{
 	}
 
 	void respawn(){
-		x = random(33, width-33);
-		y = random(33, height-33);
+		x = random(81, 1199);
+		y = random(129, 639);
 		x_speed = random(1, 10);
 		y_speed = random(1, 10);
 	}

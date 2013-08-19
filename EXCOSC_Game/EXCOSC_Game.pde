@@ -2,7 +2,7 @@ Game game;
 boolean[] keyboard = new boolean[255];
 
 void setup(){
-	size(800, 600);
+	size(1280, 720);
 	game = new Game();
 	frameRate(30);
 }
@@ -12,9 +12,9 @@ void draw(){
 }
 
 void keyPressed(){
-	//game.utilities.setKey(key);
+	game.utilities.setKey(key);
 }
 
 void keyReleased(){
-	//game.utilities.releaseKey(key);
+	game.utilities.releaseKey(key);
 }

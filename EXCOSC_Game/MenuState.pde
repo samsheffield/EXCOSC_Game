@@ -16,7 +16,7 @@ class MenuState extends State {
 		super.draw();
 		
 		textAlign(CENTER, CENTER);
-		textSize(20);
+		fill(#ffffff);
 		text("Press any key to start", width/2, height/2);
 
 		// Press any key or click mouse to start

@@ -8,7 +8,8 @@ class Sprite {
 
 	float x, y;		 	// POSITIONING
 	float w, h;			// Sprite width and height
-	
+	float rotation;
+
 	boolean paused;					// USED TO CONTROL ANIMATION PLAYBACK
 	boolean play_during_pause;		// OVERRIDE DEFAULT PAUSING BEHAVIOR
 	boolean flip;
@@ -17,6 +18,7 @@ class Sprite {
 	float x_velocity, y_velocity;
 	float x_flip, y_flip;
 	float x_size, y_size, size;
+	float gravity;
 
 	Sprite(float _x, float _y){
 		x = _x;
@@ -95,6 +97,7 @@ class Sprite {
 	// GO TO A PARTICULAR FRAME
 	void seek(int _frame){
 		current_frame = _frame;
+		pause();
 	}
 
 	void draw(){
@@ -102,6 +105,7 @@ class Sprite {
 		pushMatrix();
 		translate(x, y);
 		scale(x_flip, y_flip);
+		rotate(radians(rotation));
 		image(sprites[current_frame],0,0,x_size, y_size);
 		popMatrix();
 		imageMode(CORNER);
@@ -121,6 +125,7 @@ class Sprite {
 		}
 		x += x_velocity;
 		y += y_velocity;
+
 	}
 
 	void setXVelocity(float _x_velocity){
@@ -134,4 +139,5 @@ class Sprite {
 	void setFlip(boolean _flip){
 		flip = _flip;
 	}
+
 }
