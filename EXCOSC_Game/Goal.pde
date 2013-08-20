@@ -1,7 +1,7 @@
 class Goal extends Sprite{
 
 	PImage goal_image;
-	float x, y, size;
+	float size;
 	int value;
 
 	Goal(float _x, float _y){
@@ -22,4 +22,6 @@ class Goal extends Sprite{
 	void draw(){
 		super.draw();
 	}
+
+
 }

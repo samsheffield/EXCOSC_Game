@@ -11,6 +11,7 @@ class Player extends Sprite{
 
 	boolean invincible;
 	boolean[] keyboard;
+	int frame;
 
 	Player(float _x, float _y){
 		super(_x, _y);
@@ -38,25 +39,32 @@ class Player extends Sprite{
 		//setYVelocity(0);
 		setXVelocity(0);
 
-		if(keyboard[0]){
-			seek(1); 
+		// UP
+		if(keyboard[0]){ 
 			setYVelocity(-15); 
 		}
-
-		if(keyboard[2]){
-			seek(0); 
+		// DOWN
+		if(keyboard[2]){ 
 			setYVelocity(15); 
 		}
 
+		// LEFT
 		if(keyboard[1]){
-			seek(0); 
+			frame = 0;
 			setXVelocity(-15); 
 		}
 
+		// RIGHT
 		if(keyboard[3]){
-			seek(0); 
+			frame = 1;
 			setXVelocity(15); 
 		}
+		
+		if(y < 150)
+			seek(frame+2);
+		else
+			seek(frame);
+
 
 		// Color switching (pretty slow method)
 		c = #000000;
@@ -76,25 +84,28 @@ class Player extends Sprite{
 			c = #ff00ff;
 
 		if(keyboard[4] && keyboard[5] && keyboard[6])
-			c = #eeeeee;
+			c = #ffffff;
 
 		size = x_size;
 
-		println(y_velocity);
-
-		
-
 		super.update();
-		if(y+size/1.61 <= world_floor)
-			y_velocity += gravity;
-		else
+
+		if(y+size/1.61 > world_floor){
 			y = world_floor-size/1.61;
+			gravity = 0;
+		}
+		else if (y-size/1.61 < 96){
+			y = 96+size/1.61;
+		}else{
+			gravity = 5;
+		}
+		
+		y_velocity += gravity;
 
 		if(x > 1232 - size/2)
 			x = 1232-size/2;
 		if(x <  48+size/2)
 			x = 48+size/2;
-
 	}
 
 	void grow(){
