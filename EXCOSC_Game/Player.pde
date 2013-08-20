@@ -60,7 +60,7 @@ class Player extends Sprite{
 			setXVelocity(15); 
 		}
 		
-		if(y < 150)
+		if(y < 200)
 			seek(frame+2);
 		else
 			seek(frame);

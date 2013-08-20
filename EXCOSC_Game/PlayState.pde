@@ -9,6 +9,8 @@ class PlayState extends State {
 	Player p1;
 	ArrayList<Enemy> enemies;
 	ArrayList<Cloud> clouds;
+	ArrayList<ParticleEmitter> particle_emitters;
+
 	Goal goal;
 	PImage stage;
 
@@ -34,6 +36,8 @@ class PlayState extends State {
 		goal = new Goal(player_start.x, player_start.y);
 		p1 = new Player(player_start.x, player_start.y);
 		stage = loadImage("stage.png");
+
+		particle_emitters = new ArrayList<ParticleEmitter>();
 	}
 
 	void draw(){
@@ -51,10 +55,6 @@ class PlayState extends State {
 		fill(255);
 		text(door_score, goal.x, goal.y+20);
 
-		p1.update();
-		p1.getInput(utilities.keyboard);
-		p1.draw();
-
 		for (int i = enemies.size()-1; i >=0; i--){
 			enemies.get(i).update();
 			enemies.get(i).draw();
@@ -62,6 +62,7 @@ class PlayState extends State {
 			if(!p1.invincible){
 				if(utilities.overlaps(p1, enemies.get(i))){
 					if(utilities.testColor(p1, enemies.get(i))){
+						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c));
 						enemies.get(i).respawn(clouds.get(i));
 						p1.grow();
 						door_score++;
@@ -72,6 +73,15 @@ class PlayState extends State {
 				}	
 			}	
 		}
+
+		for (ParticleEmitter _particle_emitter : particle_emitters){
+			_particle_emitter.update();
+			_particle_emitter.draw();
+		}
+
+		p1.update();
+		p1.getInput(utilities.keyboard);
+		p1.draw();
 
 		if(utilities.overlaps(p1, goal) && !p1.invincible){
 			if(done)
