@@ -120,10 +120,10 @@ class Sprite {
 			else if(x_velocity < 0)
 				x_flip = -1;
 
-			if(y_velocity > 0)
+			/*if(y_velocity > 0)
 				y_flip = 1;
 			else if(y_velocity < 0)
-				y_flip = -1;
+				y_flip = -1;*/
 		}
 		x += x_velocity;
 		y += y_velocity;

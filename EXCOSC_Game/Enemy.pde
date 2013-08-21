@@ -11,6 +11,8 @@ class Enemy extends Sprite{
 	float r_speed;
 	boolean p_invincible;
 	boolean stuck;
+	float floaty_spread;
+	float gravity;
 
 	Enemy(float _x, float _y, int _type){
 		super(_x, _y);
@@ -18,6 +20,8 @@ class Enemy extends Sprite{
 		y_size = 64;
 		size = 64;
 		type = _type;
+
+		gravity = 5;
 
 		enemy_image = loadImage("enemies.png");
 		addAnimation(enemy_image, 64,64);
@@ -37,6 +41,7 @@ class Enemy extends Sprite{
 		c = color(random(255), random(255), random(255));
 
 		max_wander = 30;
+		floaty_spread = 1000;
 
 		switch (type){
 			case 0 : straightMovement(1, 10); break;
@@ -46,28 +51,27 @@ class Enemy extends Sprite{
 			case 4 : drop(); break;
 			case 5 : break;
 			case 6 : break;
-			case 7 : angularMovement(2, 10); break;
+			case 7 : drop(); break;
 		}
 
 	}
 
 	void update(){
 		super.update();
+
 		switch (type){
 			case 0 : bounce(); break;
 			case 1 : bounce(); rotate(10); break;
 			case 2 : bounce(); rotate(5); break;
 			case 3 : wrap(); faceMovement(); break;
 			case 4 : stick(); break;
-			case 5 : floaty(); rotate(3); break;
+			case 5 : floaty(); rotate(3); wrap(); break;
 			case 6 : moveToward(); rotate(r_speed); stick(); break;
-			case 7 : bounce(); rotate(3); break;
+			case 7 : jump(); faceMovement(); break;
 		}
 
 		x += x_speed*x_direction;
 		y += y_speed*y_direction;
-
-		
 	}
 
 	void draw(){
@@ -77,7 +81,7 @@ class Enemy extends Sprite{
 	}
 
 	void faceMovement(){
-		x_flip = x_direction;
+		x_flip = x_direction; // sloppy
 	}
 
 	void respawn(Cloud _cloud){
@@ -137,7 +141,6 @@ class Enemy extends Sprite{
 		}
 	}
 
-
 	void rotate(float _r_speed){
 		rotation += _r_speed;
 	}
@@ -160,8 +163,14 @@ class Enemy extends Sprite{
 	}
 
 	void floaty(){
-		floater += .025;
+		floater += floaty_spread*-.00001;
 		x_velocity = sin(floater);
+		y_velocity = cos(floater);
+
+		if(floaty_spread < 0)
+			floaty_spread = 1000;
+
+		floaty_spread--;
 	}
 
 	void moveToward(){
@@ -186,5 +195,23 @@ class Enemy extends Sprite{
 		}
 	}
 
+	void jump(){
+		if(y+size/2 > 672){
+			y = 672-size/2;
+			//gravity = 0;
+			y_velocity = random(-60, -20);
+			x_velocity = random(-10, 10);
+		}
+		else if (y-size/2 < 96){
+			y = 96+size/2;
+		}
+		
+		y_velocity += gravity;
+
+		if(x > 1232 - size/2)
+			x = 1232-size/2;
+		if(x <  48+size/2)
+			x = 48+size/2;
+	}
 
 }
