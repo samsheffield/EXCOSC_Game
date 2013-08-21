@@ -5,8 +5,6 @@ class Player extends Sprite{
 	int current_color;
 	float world_floor;
 
-	color c;
-
 	boolean justPressed;
 
 	boolean invincible;

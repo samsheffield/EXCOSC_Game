@@ -12,6 +12,8 @@ void draw(){
 }
 
 void keyPressed(){
+	if(key == ' ')
+		saveFrame(); 
 	game.utilities.setKey(key);
 }
 

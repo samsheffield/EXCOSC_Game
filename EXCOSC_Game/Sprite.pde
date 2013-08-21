@@ -20,6 +20,8 @@ class Sprite {
 	float x_size, y_size, size;
 	float gravity;
 
+	color c;
+
 	Sprite(float _x, float _y){
 		x = _x;
 		y = _y;

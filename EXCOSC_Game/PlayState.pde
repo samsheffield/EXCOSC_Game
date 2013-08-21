@@ -56,8 +56,14 @@ class PlayState extends State {
 		text(door_score, goal.x, goal.y+20);
 
 		for (int i = enemies.size()-1; i >=0; i--){
+			enemies.get(i).p_invincible = p1.invincible;
+			enemies.get(i).p_x = p1.x;
+			enemies.get(i).p_y = p1.y;
 			enemies.get(i).update();
 			enemies.get(i).draw();
+
+			
+
 
 			if(!p1.invincible){
 				if(utilities.overlaps(p1, enemies.get(i))){
@@ -65,7 +71,7 @@ class PlayState extends State {
 						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c));
 						enemies.get(i).respawn(clouds.get(i));
 						p1.grow();
-						door_score++;
+						door_score+=10;
 					}
 					else{
 						finish = true;
@@ -74,9 +80,20 @@ class PlayState extends State {
 			}	
 		}
 
-		for (ParticleEmitter _particle_emitter : particle_emitters){
-			_particle_emitter.update();
-			_particle_emitter.draw();
+		for (int i = particle_emitters.size()-1; i >=0; i--){
+			particle_emitters.get(i).update();
+			particle_emitters.get(i).draw();
+
+			for (int j = particle_emitters.get(i).p.size()-1; j>= 0; j--){
+				if(utilities.overlaps(p1, particle_emitters.get(i).p.get(j))){
+					//particle_emitters.remove(particle_emitters.get(i));
+					if(utilities.testColor(p1, particle_emitters.get(i).p.get(j))){
+						particle_emitters.get(i).p.remove(particle_emitters.get(i).p.get(j));
+						score++;
+					}
+				}
+			}
+
 		}
 
 		p1.update();

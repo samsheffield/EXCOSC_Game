@@ -15,7 +15,7 @@ class Utilities{
 			return false;
 	}
 
-	boolean testColor(Player _player, Enemy _enemy){
+	boolean testColor(Sprite _player, Sprite _enemy){
 		PVector _player_color = new PVector(red(_player.c), green(_player.c), blue(_player.c));
 		PVector _enemy_color = new PVector(red(_enemy.c), green(_enemy.c), blue(_enemy.c));
 

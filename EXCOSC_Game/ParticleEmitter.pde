@@ -1,27 +1,27 @@
 class ParticleEmitter {
 
-	Particle[] p;
+	ArrayList<Particle> p;
 	int total_particles;
 
 	ParticleEmitter(float _x, float _y, color _c){
 		total_particles = 8;
-		p = new Particle[total_particles];
+		p = new ArrayList<Particle>();
 
-		for (int i = 0; i<p.length; i++){
-			p[i] = new Particle(_x, _y, _c);
+		for (int i = 0; i<total_particles; i++){
+			p.add(new Particle(_x, _y, _c));
 		}
 
 	}
 
 	void update(){
-		for (int i = 0; i<p.length; i++){
-			p[i].update();
+		for (Particle _p : p){
+			_p.update();
 		}
 	}
 
 	void draw(){
-		for (int i = 0; i<p.length; i++){
-			p[i].draw();
+		for (Particle _p : p){
+			_p.draw();
 		}
 	}
 }
