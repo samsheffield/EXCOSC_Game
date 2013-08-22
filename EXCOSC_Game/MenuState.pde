@@ -17,11 +17,13 @@ class MenuState extends State {
 	void draw(){
 		super.draw();
 		image(title_image, 0, 0);
-		//textAlign(CENTER, CENTER);
-		//fill(#ffffff);
-		//text("Press any key to start", width/2, height/2);
 
-		// Press any key or click mouse to start
+		textAlign(LEFT, BOTTOM);
+		fill(255);
+		text("SCORE: " + score, 16, 48);
+		textAlign(RIGHT, BOTTOM);
+		text("HI SCORE: " + hiscore, 1264, 48);
+
 		if(keyPressed || mousePressed)
 			finish = true;
 	}

@@ -10,7 +10,8 @@ class PlayState extends State {
 	ArrayList<Enemy> enemies;
 	ArrayList<Cloud> clouds;
 	ArrayList<ParticleEmitter> particle_emitters;
-
+	ArrayList<ParticleEmitter> p1_particle_emitters;
+	Bubble bubble;
 	Goal goal;
 	PImage stage;
 
@@ -38,6 +39,8 @@ class PlayState extends State {
 		stage = loadImage("stage.png");
 
 		particle_emitters = new ArrayList<ParticleEmitter>();
+		p1_particle_emitters = new ArrayList<ParticleEmitter>();
+		bubble = new Bubble(p1.x, p1.y);
 	}
 
 	void draw(){
@@ -63,18 +66,22 @@ class PlayState extends State {
 			enemies.get(i).draw();
 
 			
-
+			if(p1.dead)
+				finish = true;
 
 			if(!p1.invincible){
-				if(utilities.overlaps(p1, enemies.get(i))){
+				if(utilities.overlaps(p1, enemies.get(i)) && !p1.killed){
 					if(utilities.testColor(p1, enemies.get(i))){
-						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c));
+						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c, 8));
 						enemies.get(i).respawn(clouds.get(i));
 						p1.grow();
 						door_score+=10;
 					}
 					else{
-						finish = true;
+						if(!p1.killed){
+							p1.kill(millis());
+							p1_particle_emitters.add(new ParticleEmitter(p1.x, p1.y, p1.c, score+1));
+						}
 					}
 				}	
 			}	
@@ -93,12 +100,28 @@ class PlayState extends State {
 					}
 				}
 			}
+		}
 
+		for (int i = p1_particle_emitters.size()-1; i >=0; i--){
+			p1_particle_emitters.get(i).update();
+			p1_particle_emitters.get(i).draw();
 		}
 
 		p1.update();
 		p1.getInput(utilities.keyboard);
 		p1.draw();
+
+		if(p1.invincible){
+			bubble.active = true;
+			bubble.p_x = p1.x;
+			bubble.p_y = p1.y;
+		}
+		else{
+			bubble.active = false;
+		}
+
+		bubble.update();
+		bubble.draw();
 
 		if(utilities.overlaps(p1, goal) && !p1.invincible){
 			if(done)

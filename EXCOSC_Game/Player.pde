@@ -4,6 +4,8 @@ class Player extends Sprite{
 	PImage player_image;
 	int current_color;
 	float world_floor;
+	float created_at, died_at;
+	boolean killed, dead;
 
 	boolean justPressed;
 
@@ -27,36 +29,46 @@ class Player extends Sprite{
 		keyboard = new boolean[8];
 		world_floor = 672;
 		gravity = 5;
+
+		created_at = millis();
 	}
 
 	void update(){
-		if(keyPressed)
+
+		if(killed){
+			if(millis() > died_at + 2000)
+				dead = true;
+		}
+		if(keyPressed && millis() > created_at+500)
 			invincible = false;
 
 		// Reset speed
 		//setYVelocity(0);
 		setXVelocity(0);
 
-		// UP
-		if(keyboard[0]){ 
-			setYVelocity(-15); 
-		}
-		// DOWN
-		if(keyboard[2]){ 
-			setYVelocity(15); 
+		if(millis() > created_at+500 && !killed){
+			// UP
+			if(keyboard[0]){ 
+				setYVelocity(-15); 
+			}
+			// DOWN
+			if(keyboard[2]){ 
+				setYVelocity(15); 
+			}
+
+			// LEFT
+			if(keyboard[1]){
+				frame = 0;
+				setXVelocity(-15); 
+			}
+
+			// RIGHT
+			if(keyboard[3]){
+				frame = 1;
+				setXVelocity(15); 
+			}
 		}
 
-		// LEFT
-		if(keyboard[1]){
-			frame = 0;
-			setXVelocity(-15); 
-		}
-
-		// RIGHT
-		if(keyboard[3]){
-			frame = 1;
-			setXVelocity(15); 
-		}
 		
 		if(y < 200)
 			seek(frame+2);
@@ -112,12 +124,20 @@ class Player extends Sprite{
 	}
 
 	void draw(){
-		tint(c);
-		super.draw();
-		noTint();
+		if(!killed){
+			tint(c);
+			super.draw();
+			noTint();
+		}
+
 	}
 
 	void getInput(boolean[] _keyboard){
 		arrayCopy(_keyboard, keyboard);
+	}
+
+	void kill(float _died_at){
+		killed = true;
+		died_at = _died_at;
 	}
 }

@@ -3,8 +3,8 @@ class ParticleEmitter {
 	ArrayList<Particle> p;
 	int total_particles;
 
-	ParticleEmitter(float _x, float _y, color _c){
-		total_particles = 8;
+	ParticleEmitter(float _x, float _y, color _c, int _total_particles){
+		total_particles = _total_particles;
 		p = new ArrayList<Particle>();
 
 		for (int i = 0; i<total_particles; i++){
