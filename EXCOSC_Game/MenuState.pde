@@ -16,7 +16,7 @@ class MenuState extends State {
 		title_image = loadImage("title.png");
 		howto_image = loadImage("instructions.png");
 		start_frame = frameCount;
-		trigger_frame = 180;
+		trigger_frame = 120;
 	}
 
 	void draw(){
@@ -24,7 +24,7 @@ class MenuState extends State {
 		println(trigger_frame + " " + switch_title);
 		if(frameCount == start_frame + trigger_frame){
 			switch_title++;
-			trigger_frame += 180;
+			trigger_frame += 120;
 		}
 
 

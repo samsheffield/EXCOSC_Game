@@ -8,6 +8,10 @@ class Utilities{
 		keyboard = new boolean[8];
 	}
 
+	// OSC
+	
+
+	// Collision
 	boolean overlaps(Sprite _player, Sprite _enemy){
 		if(dist(_player.x, _player.y, _enemy.x, _enemy.y) < _player.size/2 + _enemy.size/2)
 			return true;
@@ -25,6 +29,7 @@ class Utilities{
 			return false;
 	}
 
+	// Keyboard
 	void setKey(int _key){
 		switch (_key){
 			case 'w': keyboard[0]=true; break;

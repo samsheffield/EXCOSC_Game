@@ -5,6 +5,9 @@ class Game {
 	int score, hiscore;
 	PFont font;
 
+	float[] player_osc = new float[6];
+	float[][] entity_osc = new float[8][5];
+
 	Game(){
 		state = new ArrayList<State>();
 		state.add(new MenuState());
@@ -31,5 +34,13 @@ class Game {
 				state.get(i).draw();
 			}
 		}
+	}
+
+	void setPlayerOSC(float[] _player_osc){
+		arrayCopy(_player_osc, player_osc);
+	}
+
+	void setEntityOSC(float[][] _entity_osc){
+		arrayCopy(_entity_osc, entity_osc);
 	}
 }
