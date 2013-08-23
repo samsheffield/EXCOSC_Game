@@ -5,13 +5,12 @@ class Player extends Sprite{
 	int current_color;
 	float world_floor;
 	float created_at, died_at;
+	int trigger;
 	boolean killed, dead;
 
 	boolean justPressed;
 
 	boolean invincible;
-	boolean[] keyboard;
-	int frame;
 
 	Player(float _x, float _y){
 		super(_x, _y);
@@ -26,76 +25,67 @@ class Player extends Sprite{
 		x_velocity = 15;
 		y_velocity = 15;
 		invincible = true;
-		keyboard = new boolean[8];
 		world_floor = 672;
 		gravity = 5;
-
+		flip = true;
 		created_at = millis();
 	}
 
 	void update(){
-
+		trigger = 0;
+		c = #000000; // reset color
+		
 		if(killed){
 			if(millis() > died_at + 2000)
 				dead = true;
 		}
-		if(keyPressed && millis() > created_at+500)
+
+		if(keyPressed && millis() > created_at+500){
 			invincible = false;
+			trigger = 1;
+		}
 
 		// Reset speed
-		//setYVelocity(0);
 		setXVelocity(0);
 
 		if(millis() > created_at+500 && !killed){
 			// UP
-			if(keyboard[0]){ 
+			if(getKeyboardState(0))
 				setYVelocity(-15); 
-			}
 			// DOWN
-			if(keyboard[2]){ 
+			if(getKeyboardState(2)) 
 				setYVelocity(15); 
-			}
-
 			// LEFT
-			if(keyboard[1]){
-				frame = 0;
+			if(getKeyboardState(1))
 				setXVelocity(-15); 
-			}
-
 			// RIGHT
-			if(keyboard[3]){
-				frame = 1;
+			if(getKeyboardState(3))
 				setXVelocity(15); 
-			}
 		}
 
-		
-		if(y < 200)
-			seek(frame+2);
-		else
-			seek(frame);
-
-
 		// Color switching (pretty slow method)
-		c = #000000;
-
-		if(keyboard[4])
+		if(getKeyboardState(4))
 			c = #ff0000;
-		else if(keyboard[5])
+		else if(getKeyboardState(5))
 			c = #00ff00;
-		else if(keyboard[6])
+		else if(getKeyboardState(6))
 			c = #0000ff;
 
-		if(keyboard[4] && keyboard[5])
+		if(getKeyboardState(4) && getKeyboardState(5))
 			c = #ffff00;
-		else if(keyboard[5] && keyboard[6])
+		else if(getKeyboardState(5) && getKeyboardState(6))
 			c = #00ffff;
-		else if(keyboard[4] && keyboard[6])
+		else if(getKeyboardState(4) && getKeyboardState(6))
 			c = #ff00ff;
 
-		if(keyboard[4] && keyboard[5] && keyboard[6])
+		if(getKeyboardState(4) && getKeyboardState(5) && getKeyboardState(6))
 			c = #ffffff;
 
+		// Hang from ceiling		
+		if(y < 200)
+			seek(1);
+		else
+			seek(0);
 		size = x_size;
 
 		super.update();
@@ -130,10 +120,6 @@ class Player extends Sprite{
 			noTint();
 		}
 
-	}
-
-	void getInput(boolean[] _keyboard){
-		arrayCopy(_keyboard, keyboard);
 	}
 
 	void kill(float _died_at){

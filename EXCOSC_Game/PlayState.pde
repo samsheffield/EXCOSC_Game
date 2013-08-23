@@ -7,16 +7,19 @@ PlayState can be switched to from any other state with switch_state = 1;
 
 class PlayState extends State {
 	Player p1;
+	Bubble bubble;
+	Goal goal;
+	Utilities utilities;
+
 	ArrayList<Enemy> enemies;
 	ArrayList<Cloud> clouds;
 	ArrayList<ParticleEmitter> particle_emitters;
 	ArrayList<ParticleEmitter> p1_particle_emitters;
-	Bubble bubble;
-	Goal goal;
-	PImage stage;
 
+	PImage stage;
 	int door_score;
 	boolean done;
+
 	PlayState(){
 		super();
 		switch_state = 2;
@@ -41,6 +44,8 @@ class PlayState extends State {
 		particle_emitters = new ArrayList<ParticleEmitter>();
 		p1_particle_emitters = new ArrayList<ParticleEmitter>();
 		bubble = new Bubble(p1.x, p1.y);
+
+		utilities = new Utilities();
 	}
 
 	void draw(){
@@ -65,7 +70,6 @@ class PlayState extends State {
 			enemies.get(i).update();
 			enemies.get(i).draw();
 
-			
 			if(p1.dead)
 				finish = true;
 
@@ -108,7 +112,6 @@ class PlayState extends State {
 		}
 
 		p1.update();
-		p1.getInput(utilities.keyboard);
 		p1.draw();
 
 		if(p1.invincible){
@@ -130,10 +133,14 @@ class PlayState extends State {
 			switch_state = 1;
 			done = true;
 		}
-		textAlign(LEFT, BOTTOM);
-		fill(0);
-		text("SCORE: " + score, 16, 48);
-		textAlign(RIGHT, BOTTOM);
-		text("HI SCORE: " + hiscore, 1264, 48);
+
+		addScore(0);
+
+		sendOsc("/player/position/x", map(p1.x, 0, width, 0, 1));
+		sendOsc("/player/position/y", map(p1.y, 0, height, 0, 1));
+		sendOsc("/player/colour/r", map(red(p1.c), 0, 255, 0, 1));
+		sendOsc("/player/colour/g", map(green(p1.c), 0, 255, 0, 1));
+		sendOsc("/player/colour/b", map(blue(p1.c), 0, 255, 0, 1));
+		sendOsc("/player/trigger", p1.trigger);
 	}
 }

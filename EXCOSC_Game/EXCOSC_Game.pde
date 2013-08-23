@@ -30,7 +30,7 @@ int listen_port, send_port;
 String send_address;
 
 Game game;
-boolean[] keyboard = new boolean[255];
+boolean[] keyboard = new boolean[8];
 
 void setup(){
 	// Default ports for OSC
@@ -62,21 +62,33 @@ void setup(){
 }
 
 void draw(){
-	game.setPlayerOSC(player_osc);
-	game.setEntityOSC(entity_osc);
 	game.play();
-	/*sendPlayerOSC(game.getPlayerOSC());
-	sendEntityOSC(game.getEntityOSC());*/
 }
 
 void keyPressed(){
-	//if(key == ' ')
-		//saveFrame(); 
-	game.utilities.setKey(key);
+	switch (key){
+		case 'w': keyboard[0]=true; break;
+		case 'a': keyboard[1]=true; break;
+		case 's': keyboard[2]=true; break;
+		case 'd': keyboard[3]=true; break;
+		case 'j': keyboard[4]=true; break;
+		case 'k': keyboard[5]=true; break;
+		case 'l': keyboard[6]=true; break;
+		case ' ': keyboard[7]=true; break;
+	}
 }
 
 void keyReleased(){
-	game.utilities.releaseKey(key);
+	switch (key){
+		case 'w': keyboard[0]=false; break;
+		case 'a': keyboard[1]=false; break;
+		case 's': keyboard[2]=false; break;
+		case 'd': keyboard[3]=false; break;
+		case 'j': keyboard[4]=false; break;
+		case 'k': keyboard[5]=false; break;
+		case 'l': keyboard[6]=false; break;
+		case ' ': keyboard[7]=false; break;
+	}	
 }
 
 // Simple OSC sender. _address_pattern is something like "/player/position/x". _osc_message is the floating point number between 0 and 1
@@ -84,6 +96,15 @@ void sendOsc(String _address_pattern, float _message){
     OscMessage _osc_message = new OscMessage(_address_pattern);
     _osc_message.add(_message);
     oscP5.send(_osc_message, send_to_address);
+}
+
+// Used to transport OSC to other classes
+float getPlayerOsc(int _id){
+	return player_osc[_id];
+}
+
+boolean getKeyboardState(int _id){
+	return keyboard[_id];
 }
 
 // OSC Event handler
@@ -244,11 +265,3 @@ void oscEvent(OscMessage _osc_message){
 		entity_osc[7][4] = _osc_message.get(0).floatValue();
 	}
 }
-
-/*void sendPlayerOSC(String _address_pattern, float _message){
-	sendOsc(_address_pattern, _message);
-}
-
-void sendEntityOSC(String _address_pattern, float _message){
-	sendOsc(_address_pattern, _message);
-}*/

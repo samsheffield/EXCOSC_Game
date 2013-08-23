@@ -21,7 +21,6 @@ class MenuState extends State {
 
 	void draw(){
 		super.draw();
-		println(trigger_frame + " " + switch_title);
 		if(frameCount == start_frame + trigger_frame){
 			switch_title++;
 			trigger_frame += 120;
@@ -33,11 +32,7 @@ class MenuState extends State {
 		else
 			image(howto_image, 0, 0);
 		
-		textAlign(LEFT, BOTTOM);
-		fill(255);
-		text("SCORE: " + score, 16, 48);
-		textAlign(RIGHT, BOTTOM);
-		text("HI SCORE: " + hiscore, 1264, 48);
+		addScore(255);
 
 		if(keyPressed || mousePressed)
 			finish = true;
