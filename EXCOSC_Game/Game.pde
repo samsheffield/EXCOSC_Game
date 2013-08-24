@@ -11,7 +11,7 @@ class Game {
 	}
 
 	void play(){
-		println(getPlayerOsc(0));
+		
 		for (int i = state.size()-1; i >= 0; i--){
 			if(state.get(i).finish){
 				switch (state.get(i).switch_state){

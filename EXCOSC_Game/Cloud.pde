@@ -2,9 +2,11 @@ class Cloud extends Sprite{
 	PImage cloud_image;
 	float x_direction, y_direction, x_speed, y_speed;
 	int opacity;
+	int type;
 
-	Cloud(float _x, float _y){
+	Cloud(float _x, float _y, int _type){
 		super(_x, _y);
+		type = _type;
 		cloud_image = loadImage("cloud.png");
 		addAnimation(cloud_image, 128, 80);
 		pause();
@@ -17,8 +19,11 @@ class Cloud extends Sprite{
 	}
 
 	void update(){
-		bounce();
-		x += x_speed*x_direction;
+		//bounce();
+		//x += x_speed*x_direction;
+		x = map(getEntityOsc(type, 0),0,1, 113, 1167);
+		y = map(getEntityOsc(type, 0),0,1, 137, 631);
+
 		super.update();
 		if(opacity > 0)
 			opacity -= 5;

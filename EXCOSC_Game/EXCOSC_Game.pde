@@ -103,6 +103,10 @@ float getPlayerOsc(int _id){
 	return player_osc[_id];
 }
 
+float getEntityOsc(int _type, int _id){
+	return entity_osc[_type][_id];
+}
+
 boolean getKeyboardState(int _id){
 	return keyboard[_id];
 }

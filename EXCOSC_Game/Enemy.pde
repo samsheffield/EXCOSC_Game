@@ -59,6 +59,8 @@ class Enemy extends Sprite{
 	void update(){
 		super.update();
 
+		c = color(getEntityOsc(type, 2)*255, getEntityOsc(type, 3)*255, getEntityOsc(type, 4)*255);
+		
 		switch (type){
 			case 0 : bounce(); break;
 			case 1 : bounce(); rotate(10); break;

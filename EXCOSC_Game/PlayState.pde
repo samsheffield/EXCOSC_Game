@@ -26,7 +26,7 @@ class PlayState extends State {
 
 		clouds = new ArrayList<Cloud>();
 		for (int i = 0; i<8; i++){
-			clouds.add(new Cloud(random(200, 800), random(200, 500)));
+			clouds.add(new Cloud(random(200, 800), random(200, 500), i));
 		}
 
 		enemies = new ArrayList<Enemy>();
@@ -69,6 +69,12 @@ class PlayState extends State {
 			enemies.get(i).p_y = p1.y;
 			enemies.get(i).update();
 			enemies.get(i).draw();
+
+			sendOsc("/entity"+i+"/position/x", map(enemies.get(i).x, 0, width, 0, 1));
+			sendOsc("/entity"+i+"/position/y", map(enemies.get(i).y, 0, height, 0, 1));
+			sendOsc("/entity"+i+"/colour/r", map(red(enemies.get(i).c), 0, 255, 0, 1));
+			sendOsc("/entity"+i+"/colour/g", map(green(enemies.get(i).c), 0, 255, 0, 1));
+			sendOsc("/entity"+i+"/colour/b", map(blue(enemies.get(i).c), 0, 255, 0, 1));
 
 			if(p1.dead)
 				finish = true;
@@ -127,11 +133,13 @@ class PlayState extends State {
 		bubble.draw();
 
 		if(utilities.overlaps(p1, goal) && !p1.invincible){
-			if(done)
-				finish = true;
-			score += door_score;
-			switch_state = 1;
-			done = true;
+			if(utilities.testColor(p1, goal)){
+				if(done)
+					finish = true;
+				score += door_score;
+				switch_state = 1;
+				done = true;
+			}
 		}
 
 		addScore(0);
