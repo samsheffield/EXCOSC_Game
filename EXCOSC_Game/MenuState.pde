@@ -13,7 +13,6 @@ class MenuState extends State {
 	}
 
 	void draw(){
-		//super.draw();
 		if(frameCount == start_frame + trigger_frame){
 			switch_title++;
 			trigger_frame += 120;

@@ -23,7 +23,7 @@ class PlayState extends State {
 
 	PlayState(){
 		super();
-		switch_state = 2;
+		switch_state = 2; // Switch to EndState.pde when done
 
 		clouds = new ArrayList<Cloud>();
 		for (int i = 0; i<8; i++){
@@ -36,10 +36,14 @@ class PlayState extends State {
 			enemies.get(i).respawn(clouds.get(i));
 		}
 
-		PVector player_start = new PVector(random(81, 1199), 180, 0);
+		//PVector player_start = new PVector(random(81, 1199), 180, 0);
 
-		goal = new Goal(player_start.x, player_start.y);
-		p1 = new Player(player_start.x, player_start.y);
+		//goal = new Goal(player_start.x, player_start.y);
+		//p1 = new Player(player_start.x, player_start.y);
+		temp_x = map(getPlayerOsc(0),0,1, 93, 1187);
+		temp_y = map(getPlayerOsc(1),0,1, 154, 613);
+		goal = new Goal(temp_x, temp_y);
+		p1 = new Player(temp_x, temp_y);
 		stage = loadImage("stage.png");
 
 		particle_emitters = new ArrayList<ParticleEmitter>();
@@ -50,7 +54,6 @@ class PlayState extends State {
 	}
 
 	void draw(){
-		//super.draw();
 		background(255);
 		image(stage,0,0);
 
@@ -101,6 +104,8 @@ class PlayState extends State {
 			if(!p1.invincible){
 				if(utilities.overlaps(p1, enemies.get(i)) && !p1.killed){
 					if(utilities.testColor(p1, enemies.get(i))){
+						kick.trigger();
+
 						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c, 8));
 						enemies.get(i).respawn(clouds.get(i));
 						p1.grow();
@@ -108,6 +113,7 @@ class PlayState extends State {
 					}
 					else{
 						if(!p1.killed){
+							snare.trigger();
 							p1.kill(millis());
 							p1_particle_emitters.add(new ParticleEmitter(p1.x, p1.y, p1.c, score+1));
 						}

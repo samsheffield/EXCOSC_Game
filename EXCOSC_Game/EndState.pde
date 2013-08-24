@@ -4,14 +4,14 @@ class EndState extends State {
 
 	EndState(){
 		super();
-		end_image = loadImage("end.png");
+		int _i = int(random(4));
+		end_image = loadImage("end" +_i +".png");
 		switch_state = 0; // Back to menustate
 		start_frame = frameCount;
 		trigger_frame = 100;
 	}
 
 	void draw(){
-		//super.draw();
 		image(end_image, 0, 0);
 		addScore(255);
 		

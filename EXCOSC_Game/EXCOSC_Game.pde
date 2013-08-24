@@ -1,8 +1,12 @@
 import oscP5.*;
 import netP5.*;
+import ddf.minim.*;
 
+Minim minim;
 OscP5 oscP5;
 NetAddress send_to_address;
+
+AudioSample kick, snare;
 
 /*
 Array which holds incoming player OSC in the following order:
@@ -55,6 +59,10 @@ void setup(){
 
 	oscP5 = new OscP5(this, listen_port);
 	send_to_address = new NetAddress(send_address, send_port);
+
+	minim = new Minim(this);
+	kick = minim.loadSample( "BD.mp3", 512);
+	snare = minim.loadSample( "SD.wav", 512);
 
 	size(1280, 720);
 	game = new Game();
