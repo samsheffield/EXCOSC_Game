@@ -8,7 +8,7 @@ class EndState extends State {
 	}
 
 	void draw(){
-		super.draw();
+		//super.draw();
 		image(end_image, 0, 0);
 		addScore(255);
 		

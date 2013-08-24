@@ -1,10 +1,3 @@
-/*
-MenuState
-
-Make a START screen and put it here.
-MenuState can be switched to from any other state with switch_state = 0;
-*/
-
 class MenuState extends State {
 	float start_frame, trigger_frame;
 	int switch_title;
@@ -20,7 +13,7 @@ class MenuState extends State {
 	}
 
 	void draw(){
-		super.draw();
+		//super.draw();
 		if(frameCount == start_frame + trigger_frame){
 			switch_title++;
 			trigger_frame += 120;

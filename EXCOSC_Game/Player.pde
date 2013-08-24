@@ -16,25 +16,29 @@ class Player extends Sprite{
 		super(_x, _y);
 		player_image = loadImage("mrplayer.png");
 		addAnimation(player_image, 416, 544);
-		pause();
 
 		y_size = 68;
 		x_size = 52;
 		max_velocity = 5;
-		size = x_size;
+		radius = x_size/2;
 		x_velocity = 15;
 		y_velocity = 15;
 		invincible = true;
-		world_floor = 672;
 		gravity = 5;
 		flip = true;
 		created_at = millis();
 	}
 
 	void update(){
+		radius = x_size/1.61;
+		min_x = 48+(radius);
+		max_x = 1232-(radius);
+		min_y = 96+radius;
+		max_y = 672-(radius);
+
 		trigger = 0;
 		c = #000000; // reset color
-		
+
 		if(killed){
 			if(millis() > died_at + 2000)
 				dead = true;
@@ -86,26 +90,25 @@ class Player extends Sprite{
 			seek(1);
 		else
 			seek(0);
-		size = x_size;
 
 		super.update();
 
-		if(y+size/1.61 > world_floor){
-			y = world_floor-size/1.61;
+		if(y > max_y){
+			y = max_y;
 			gravity = 0;
 		}
-		else if (y-size/1.61 < 96){
-			y = 96+size/1.61;
+		else if (y < min_y){
+			y = min_y;
 		}else{
 			gravity = 5;
 		}
 		
-		y_velocity += gravity;
+		if(x > 1232 - radius)
+			x = 1232-radius;
+		if(x <  48+radius)
+			x = 48+radius;
 
-		if(x > 1232 - size/2)
-			x = 1232-size/2;
-		if(x <  48+size/2)
-			x = 48+size/2;
+		y_velocity += gravity;
 	}
 
 	void grow(){

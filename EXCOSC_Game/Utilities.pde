@@ -7,7 +7,7 @@ class Utilities{
 
 	// Collision
 	boolean overlaps(Sprite _player, Sprite _enemy){
-		if(dist(_player.x, _player.y, _enemy.x, _enemy.y) < _player.size/2 + _enemy.size/2)
+		if(dist(_player.x, _player.y, _enemy.x, _enemy.y) < _player.radius + _enemy.radius)
 			return true;
 		else
 			return false;

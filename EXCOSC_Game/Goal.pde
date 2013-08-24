@@ -12,11 +12,9 @@ class Goal extends Sprite{
 
 		goal_image = loadImage("goal.png");
 		addAnimation(goal_image, 87, 113);
-		pause();
 	}
 
 	void update(){
-		println(getPlayerOsc(2));
 		x = map(getPlayerOsc(0),0,1, 93, 1187);
 		y = map(getPlayerOsc(1),0,1, 154, 613);
 		c = color(getPlayerOsc(2)*255, getPlayerOsc(3)*255, getPlayerOsc(4)*255);

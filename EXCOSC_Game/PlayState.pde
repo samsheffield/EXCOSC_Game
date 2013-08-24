@@ -19,6 +19,7 @@ class PlayState extends State {
 	PImage stage;
 	int door_score;
 	boolean done;
+	float temp_x, temp_y;
 
 	PlayState(){
 		super();
@@ -49,20 +50,26 @@ class PlayState extends State {
 	}
 
 	void draw(){
-		super.draw();
+		//super.draw();
 		background(255);
 		image(stage,0,0);
 
+		// Clouds spawn enemies
 		for (Cloud _cloud : clouds){
 			_cloud.update();
 			_cloud.draw();
 		}
+
+		// Goals are exits and score bonuses
 		goal.update();
 		goal.draw();
+
+		// Door score display
 		textAlign(CENTER, CENTER);
 		fill(255);
 		text(door_score, goal.x, goal.y+20);
 
+		// Enemies have different behaviors and can be turned to candy if similar in color to player
 		for (int i = enemies.size()-1; i >=0; i--){
 			enemies.get(i).p_invincible = p1.invincible;
 			enemies.get(i).p_x = p1.x;
@@ -70,8 +77,20 @@ class PlayState extends State {
 			enemies.get(i).update();
 			enemies.get(i).draw();
 
-			sendOsc("/entity"+i+"/position/x", map(enemies.get(i).x, 0, width, 0, 1));
-			sendOsc("/entity"+i+"/position/y", map(enemies.get(i).y, 0, height, 0, 1));
+			temp_x = map(enemies.get(i).x, 0, width, 0, 1);
+			if (temp_x < 0)
+				temp_x = 0;
+			else if (temp_x > 1)
+				temp_x = 1;
+
+			temp_y = map(enemies.get(i).y, 0, height, 0, 1);
+			if (temp_y < 0)
+				temp_y = 0;
+			else if (temp_y > 1)
+				temp_y = 1;
+
+			sendOsc("/entity"+i+"/position/x", temp_x);
+			sendOsc("/entity"+i+"/position/y", temp_y);
 			sendOsc("/entity"+i+"/colour/r", map(red(enemies.get(i).c), 0, 255, 0, 1));
 			sendOsc("/entity"+i+"/colour/g", map(green(enemies.get(i).c), 0, 255, 0, 1));
 			sendOsc("/entity"+i+"/colour/b", map(blue(enemies.get(i).c), 0, 255, 0, 1));

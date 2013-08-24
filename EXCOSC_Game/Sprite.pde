@@ -6,19 +6,20 @@ class Sprite {
 	PImage[] sprites;
 	int current_frame;				// CURRENT FRAME OF ANIMATION BEING DISPLAYED
 
-	float x, y;		 	// POSITIONING
-	float w, h;			// Sprite width and height
+	float x, y;		 				// POSITIONING
+	float x_size, y_size, size, radius;		// Sprite width and height
 	float rotation;
 
 	boolean paused;					// USED TO CONTROL ANIMATION PLAYBACK
 	boolean play_during_pause;		// OVERRIDE DEFAULT PAUSING BEHAVIOR
-	boolean flip;
+	boolean flip, rotating;
 
 	int start, end, loopRate;
 	float x_velocity, y_velocity;
 	float x_flip, y_flip;
-	float x_size, y_size, size;
+	
 	float gravity;
+	float min_x, min_y, max_x, max_y;
 
 	color c;
 
@@ -32,8 +33,9 @@ class Sprite {
 
 	// Create sprites from spritesheet and store them in sprites[].
 	void addAnimation(PImage _img, int _cw, int _ch){
-		w = _cw;
-		h = _ch;
+		x_size = _cw;
+		y_size = _ch;
+		size = x_size;
 
 		sprites = new PImage[_img.width/_cw * _img.height/_ch];
 		int _cell_divider = _img.width/_cw;
@@ -106,9 +108,9 @@ class Sprite {
 		imageMode(CENTER);
 		pushMatrix();
 		translate(x, y);
-		scale(x_flip, y_flip);
-		rotate(radians(rotation));
-		image(sprites[current_frame],0,0,x_size, y_size);
+		if(flip) scale(x_flip, y_flip);
+		if(rotating) rotate(radians(rotation));
+		image(sprites[current_frame],0,0, x_size, y_size);
 		popMatrix();
 		imageMode(CORNER);
 	}

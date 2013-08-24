@@ -1,17 +1,14 @@
 class Game {
 	ArrayList<State> state;
 	int score, hiscore;
-	PFont font;
+	
 
 	Game(){
 		state = new ArrayList<State>();
 		state.add(new MenuState());
-		font = loadFont("score_text_30.vlw");
-		textFont(font, 30);
 	}
 
 	void play(){
-		
 		for (int i = state.size()-1; i >= 0; i--){
 			if(state.get(i).finish){
 				switch (state.get(i).switch_state){

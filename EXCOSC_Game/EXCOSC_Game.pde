@@ -91,6 +91,11 @@ void keyReleased(){
 	}	
 }
 
+// Share multiple keypresses with other classes
+boolean getKeyboardState(int _id){
+	return keyboard[_id];
+}
+
 // Simple OSC sender. _address_pattern is something like "/player/position/x". _osc_message is the floating point number between 0 and 1
 void sendOsc(String _address_pattern, float _message){
     OscMessage _osc_message = new OscMessage(_address_pattern);
@@ -105,10 +110,6 @@ float getPlayerOsc(int _id){
 
 float getEntityOsc(int _type, int _id){
 	return entity_osc[_type][_id];
-}
-
-boolean getKeyboardState(int _id){
-	return keyboard[_id];
 }
 
 // OSC Event handler

@@ -9,7 +9,6 @@ class Cloud extends Sprite{
 		type = _type;
 		cloud_image = loadImage("cloud.png");
 		addAnimation(cloud_image, 128, 80);
-		pause();
 
 		x_size = 128;
 		y_size = 80;
