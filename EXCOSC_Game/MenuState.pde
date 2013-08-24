@@ -1,5 +1,5 @@
 class MenuState extends State {
-	float start_frame, trigger_frame;
+	int start_frame, trigger_frame;
 	int switch_title;
 
 	PImage title_image, howto_image;
