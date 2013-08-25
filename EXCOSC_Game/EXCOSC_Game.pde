@@ -6,7 +6,8 @@ Minim minim;
 OscP5 oscP5;
 NetAddress send_to_address;
 
-AudioSample kick, snare;
+AudioSample player_died, player_jumped;
+AudioSample[] entity_spawn;
 
 /*
 Array which holds incoming player OSC in the following order:
@@ -61,8 +62,18 @@ void setup(){
 	send_to_address = new NetAddress(send_address, send_port);
 
 	minim = new Minim(this);
-	kick = minim.loadSample( "BD.mp3", 512);
-	snare = minim.loadSample( "SD.wav", 512);
+	player_died = minim.loadSample( "player_died.wav", 512);
+	player_jumped = minim.loadSample( "player_jumped.wav", 512);
+
+	entity_spawn = new AudioSample[8];
+	entity_spawn[0] = minim.loadSample("entity0.wav",512);
+	entity_spawn[1] = minim.loadSample("entity1.wav",512);
+	entity_spawn[2] = minim.loadSample("entity2.wav",512);
+	entity_spawn[3] = minim.loadSample("entity3.wav",512);
+	entity_spawn[4] = minim.loadSample("entity4.wav",512);
+	entity_spawn[5] = minim.loadSample("entity5.wav",512);
+	entity_spawn[6] = minim.loadSample("entity6.wav",512);
+	entity_spawn[7] = minim.loadSample("entity7.wav",512);
 
 	size(1280, 720);
 	game = new Game();

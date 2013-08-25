@@ -7,9 +7,7 @@ class Player extends Sprite{
 	float created_at, died_at;
 	int trigger;
 	boolean killed, dead;
-
-	boolean justPressed;
-
+	boolean jumping;
 	boolean invincible;
 
 	Player(float _x, float _y){
@@ -54,8 +52,13 @@ class Player extends Sprite{
 
 		if(millis() > created_at+500 && !killed){
 			// UP
-			if(getKeyboardState(0))
+			if(getKeyboardState(0)){
+				if(!jumping){
+					jumping = true;
+					player_jumped.trigger();
+				}
 				setYVelocity(-15); 
+			}
 			// DOWN
 			if(getKeyboardState(2)) 
 				setYVelocity(15); 
@@ -96,6 +99,7 @@ class Player extends Sprite{
 		if(y > max_y){
 			y = max_y;
 			gravity = 0;
+			jumping = false;
 		}
 		else if (y < min_y){
 			y = min_y;

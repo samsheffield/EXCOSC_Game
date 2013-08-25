@@ -79,6 +79,7 @@ class Enemy extends Sprite{
 		y = _cloud.y;
 		stuck = false;
 		_cloud.activate();
+		entity_spawn[type].trigger();
 	}
 
 	void bounce(){

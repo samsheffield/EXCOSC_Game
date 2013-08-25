@@ -104,8 +104,6 @@ class PlayState extends State {
 			if(!p1.invincible){
 				if(utilities.overlaps(p1, enemies.get(i)) && !p1.killed){
 					if(utilities.testColor(p1, enemies.get(i))){
-						kick.trigger();
-
 						particle_emitters.add(new ParticleEmitter(enemies.get(i).x, enemies.get(i).y, enemies.get(i).c, 8));
 						enemies.get(i).respawn(clouds.get(i));
 						p1.grow();
@@ -113,7 +111,7 @@ class PlayState extends State {
 					}
 					else{
 						if(!p1.killed){
-							snare.trigger();
+							player_died.trigger();
 							p1.kill(millis());
 							p1_particle_emitters.add(new ParticleEmitter(p1.x, p1.y, p1.c, score+1));
 						}
